@@ -1,0 +1,128 @@
+<!-- <nav class="navbar navbar-dark bg-light"> -->
+  <!-- Navbar content -->
+
+  <div class=" container ">
+
+      <button class="btn btn-lg btn-info text-white float-right"  (click)="openAdd(modal,'Add')">Add New
+          Organization</button>
+        <ul class="nav justify-content-center items">
+            <span class="doctype"><h1>Organization</h1></span>
+            </ul>
+      </div>
+      <!-- </nav> -->
+      <br /><br />
+      <div class="container" id="search">
+          <form class="form-inline mr-auto ">
+              <input
+              class="form-control "
+
+                  type="text"
+                  placeholder="Search for Organization info"
+                  aria-label="Search"
+
+                  name="n1"
+                  [(ngModel)]="searchstr"
+                  id="search-box-round"
+              />
+          </form>
+      </div>
+      <br />
+      <div class="main-container container-fluid">
+        <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
+
+
+      <!-- <button class="btn btn-lg btn-info text-white float-right"  (click)="openAdd(modal,'Add')">Add New
+        Organization</button> -->
+      </div>
+
+
+
+      <div class="container">
+
+        <table class="table">
+          <thead>
+
+            <th>Index</th>
+            <th>Organization Name</th>
+            <th>Description</th>
+            <th>Active State</th>
+            <th id='text-align-right'>Actions</th>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of arr | paginate: config | grdFilter: {name: searchstr}; let i=index">
+
+                <td>{{item.id}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.description}}</td>
+                <td>{{item.isactive}}</td>
+              <td>
+                <button class="btn btn-success" (click)="openEdit(modal,'Update',i,item)">Edit</button> |
+                <button class="btn btn-danger" (click)="confirmDelete(item.id)">Delete</button></td>
+            </tr>
+          </tbody>
+          <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
+        </table>
+      </div>
+
+
+            <ng-template #modal let-modal>
+            <div class="modal-header">
+                <h4>Add/Update Organization</h4>
+                <button type="button" class="btn btn-danger" (click)="modal.dismiss('Cross click')">Close
+                    <!-- <span aria-hidden="true">Close</span> -->
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- <div class='col-6'> -->
+                <form (ngSubmit)='onFormSubmit(f)' #f="ngForm">
+                    <table>
+                        <tr>
+                            <td>
+                                <div class="form-group">
+                                    <label for="designation">Organization Name</label>
+                                    <div class="input-group">
+                                        <!-- <input  class="form-control" [(ngModel)]="name" placeholder="Name"
+                                            name="Name" required> -->
+                                            <input  name="Name" [(ngModel)]="name" class="form-control"  #Name="ngModel"   type="text" placeholder="Enter name" required>
+                                            <label class="alert alert-danger" *ngIf="Name.hasError('required') && !Name.pristine" >Name Required.</label>
+
+                                    </div>
+                                </div>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="form-group">
+                                    <label for="description">Organization Description</label>
+                                    <div class="input-group">
+                                        <input  name="Description" class="form-control" [(ngModel)]="description" placeholder="Enter desc"  #Desc="ngModel" type="text" required>
+                                          <label class="alert alert-danger" *ngIf="Desc.hasError('required') && !Desc.pristine" >Description is Required.</label>
+                                    </div>
+                                </div>
+                                </td>
+                                </tr>
+                                <tr>
+                                  <td>
+                                <div class="form-group">
+                                  <label for="isactive">Active State</label>
+                                  <div class="input-group">
+                                      <input name="Isactive"class="form-control" [(ngModel)]="isactive" placeholder="Active state" #Act="ngModel" type="text" required>
+                                      <label class="alert alert-danger" *ngIf="Act.hasError('required') && !Act.pristine" >activity Required.</label>
+
+                                  </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-outline-dark">{{selectedOrganizationOption}} Organization</button>
+                    </div>
+                </form>
+            </div>
+            <!-- </div> -->
+
+        </ng-template>
+
+
+
